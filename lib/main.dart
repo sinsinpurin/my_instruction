@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:my_instruction/model/instract.dart';
+import 'package:my_instruction/model/user.dart';
+import 'package:provider/provider.dart';
 import 'ui/pages/home/home.dart';
+import 'ui/pages/category/category.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (context) => User()),
+    ChangeNotifierProvider(create: (context) => Instracts())
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -14,7 +21,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'じぶん説明書',
       theme: ThemeData(primarySwatch: Colors.green),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => MyHomePage(),
+        '/category': (context) => const CategoryPage()
+      },
     );
   }
 }

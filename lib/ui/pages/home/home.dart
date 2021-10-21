@@ -1,10 +1,13 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:my_instruction/model/instract.dart';
 import 'package:my_instruction/model/user.dart';
+import 'package:my_instruction/ui/pages/category/category.dart';
 import 'package:provider/provider.dart';
 
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({Key? key}) : super(key: key);
+class HomePage extends StatelessWidget {
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -39,14 +42,19 @@ class MyHomePage extends StatelessWidget {
         ));
   }
 
-  Widget _listItem(BuildContext context, String title) {
+  Widget _listItem(BuildContext context, String category) {
     return ListTile(
       title: Text(
-        title,
+        category,
         style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
       ),
       onTap: () {
-        Navigator.pushNamed(context, '/category');
+        Navigator.push(
+            context,
+            MaterialPageRoute<Void>(
+                settings: const RouteSettings(name: "/detail"),
+                builder: (BuildContext context) =>
+                    CategoryPage(category: category)));
       },
     );
   }

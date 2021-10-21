@@ -23,8 +23,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(primarySwatch: Colors.green),
       initialRoute: '/',
       routes: {
-        '/': (context) => MyHomePage(),
-        '/category': (context) => const CategoryPage()
+        '/': (context) => HomePage(),
       },
     );
   }

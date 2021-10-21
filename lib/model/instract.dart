@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 
 class Instracts extends ChangeNotifier {
   // 初期値
-  List<Instract> _instracts = [Instract()];
+  List<Instract> _instracts = [
+    Instract("Health Care", "疲れたらどうすればいい？", "寝たらいい"),
+    Instract("Sports", "疲れたらどうすればいい？", "寝たらいい"),
+    Instract("Health Care", "疲れたらどうすればいい？", "寝たらいい"),
+  ];
 
   List<Instract> get instracts => _instracts;
 
@@ -16,11 +20,17 @@ class Instracts extends ChangeNotifier {
   }
 }
 
-class Instract extends ChangeNotifier {
+class Instract {
   /// 初期値
-  String _category = "Sample Category";
-  String _question = "Sample Question";
-  String _answer = "Sample Answer";
+  String _category = "Null Category";
+  String _question = "Null Question";
+  String _answer = "Null Answer";
+
+  Instract(category, question, answer) {
+    _category = category;
+    _question = question;
+    _answer = answer;
+  }
 
   String get category => _category;
   String get question => _question;

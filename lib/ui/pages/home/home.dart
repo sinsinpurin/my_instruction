@@ -12,7 +12,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final User userState = Provider.of<User>(context);
-    final Instracts instractsState = Provider.of<Instracts>(context);
+    final Instracts instracts = Provider.of<Instracts>(context);
     return Scaffold(
         appBar: AppBar(
           title: const Text("じぶん説明書"),
@@ -32,10 +32,10 @@ class HomePage extends StatelessWidget {
                 child: const Text("Change Name")),
             Expanded(
                 child: ListView.builder(
-              itemCount: instractsState.instracts.length,
+              itemCount: instracts.instractsList.length,
               itemBuilder: (context, index) {
                 return _listItem(
-                    context, instractsState.instracts[index].category);
+                    context, instracts.instractsList[index].category);
               },
             )),
           ],
@@ -52,7 +52,7 @@ class HomePage extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute<Void>(
-                settings: const RouteSettings(name: "/detail"),
+                settings: const RouteSettings(name: "/category"),
                 builder: (BuildContext context) =>
                     CategoryPage(category: category)));
       },

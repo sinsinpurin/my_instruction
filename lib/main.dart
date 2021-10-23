@@ -3,7 +3,6 @@ import 'package:my_instruction/model/instract.dart';
 import 'package:my_instruction/model/user.dart';
 import 'package:provider/provider.dart';
 import 'ui/pages/home/home.dart';
-import 'ui/pages/category/category.dart';
 
 void main() {
   runApp(MultiProvider(providers: [
@@ -23,7 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(primarySwatch: Colors.green),
       initialRoute: '/',
       routes: {
-        '/': (context) => HomePage(),
+        '/': (context) => const HomePage(),
       },
     );
   }

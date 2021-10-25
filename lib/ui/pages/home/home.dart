@@ -34,9 +34,14 @@ class HomePage extends StatelessWidget {
               userStore.name,
               style: const TextStyle(fontSize: 30),
             )),
-            TextButton(
-                onPressed: () => {userStore.name = "masaki"},
-                child: const Text("Change Name")),
+            Container(
+              padding: const EdgeInsets.only(left: 15),
+              child: const Text(
+                "Category",
+                style: TextStyle(fontSize: 20),
+              ),
+              alignment: Alignment.topLeft,
+            ),
             Expanded(
                 child: ListView.builder(
               itemCount: instractsStore.instractsList.length,

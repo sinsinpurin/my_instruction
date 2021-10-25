@@ -24,7 +24,9 @@ class CategoryPage extends StatelessWidget {
             child: (() {
           if (instractsStore.instractsList[category] == null) {
             //instractが存在しない場合
-            return Container();
+            return const Center(
+              child: Text("No Instracts"),
+            );
           }
           return ListView.builder(
               itemCount: instractsStore.instractsList[category]!.length,

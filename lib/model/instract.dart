@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// TODO: データベースとのやりとり
 class Instracts extends ChangeNotifier {
   // 初期値
   Map<String, List<Instract>> instractsList = {};
@@ -48,18 +49,21 @@ class Instract {
   String get question => _question;
   List<String> get answers => _answers;
 
-  set question(String s) {
-    if (s.isNotEmpty) {
-      _question = s;
+  set question(String question) {
+    if (question.isNotEmpty) {
+      _question = question;
     }
   }
 
-  set answers(List<String> s) {
-    if (s.isNotEmpty) {
-      _answers = s;
+  set answers(List<String> answers) {
+    if (answers.isNotEmpty) {
+      _answers = answers;
     }
   }
 
-  // TODO: ロジックを書く
-  void addAnswers(List<String> s) {}
+  void addAnswers(List<String> answers) {
+    if (answers.isNotEmpty) {
+      _answers = [..._answers, ...answers];
+    }
+  }
 }

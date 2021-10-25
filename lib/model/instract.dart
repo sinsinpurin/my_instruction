@@ -2,58 +2,51 @@ import 'package:flutter/material.dart';
 
 class Instracts extends ChangeNotifier {
   // 初期値
-  List<Instract> _instractsList = [];
+  Map<String, List<Instract>> instractsList = {};
 
   Instracts() {
-    _instractsList = [
-      Instract("Health Care", "疲れたらどうすればいい？", ["寝たらいい"]),
-      Instract("Sports", "疲れたらどうすればいい？", ["寝たらいい"]),
-      Instract("Health Care", "疲れたらどうすればいい？", ["寝たらいい"]),
-    ];
+    instractsList = {
+      "Health Care": [
+        Instract("疲れたらどうすればいい？", ["寝たらいい"])
+      ],
+      "Education": [
+        Instract("勉強疲れた", ["寝たらいい"])
+      ],
+      "Life": [
+        Instract("朝起きれない", ["早寝しよう"])
+      ],
+    };
   }
 
-  List<Instract> get instractsList => _instractsList;
-
-  set instractsList(List<Instract> list) {
-    _instractsList = list;
-    notifyListeners();
-  }
-
-  void addList(Instract instract) {
-    _instractsList = [..._instractsList, instract];
-  }
-
-  List<Instract> getCategoryInstractsList(String category) {
-    List<Instract> list = [];
-    for (Instract instract in _instractsList) {
-      if (instract.category == category) {
-        list = [...list, instract];
+  void addInstract(String category, List<Instract> instractList) {
+    if (instractsList[category] != null) {
+      for (Instract instract in instractList) {
+        instractsList[category]!.add(instract);
       }
+    } else {
+      Map<String, List<Instract>> newInstractsList = {category: instractList};
+      instractsList.addAll(newInstractsList);
     }
     notifyListeners();
-    return list;
+  }
+
+  void removeInstract(String category, Instract instract) {
+    //;
   }
 }
 
 class Instract {
   /// 初期値
-  String _category = "Null Category";
   String _question = "Null Question";
   List<String> _answers = ["Null Answer"];
 
-  Instract(category, question, answers) {
-    _category = category;
+  Instract(question, answers) {
     _question = question;
     _answers = answers;
   }
 
-  String get category => _category;
   String get question => _question;
   List<String> get answers => _answers;
-
-  set category(String s) {
-    _category = "Changed Category";
-  }
 
   set question(String s) {
     if (s.isNotEmpty) {
@@ -66,4 +59,7 @@ class Instract {
       _answers = s;
     }
   }
+
+  // TODO: ロジックを書く
+  void addAnswers(List<String> s) {}
 }

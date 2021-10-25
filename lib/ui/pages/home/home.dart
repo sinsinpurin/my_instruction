@@ -11,8 +11,15 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final User userState = Provider.of<User>(context);
-    final Instracts instracts = Provider.of<Instracts>(context);
+    final User userStore = Provider.of<User>(context);
+    final Instracts instractsStore = Provider.of<Instracts>(context);
+
+    List<String> categoryList = [];
+
+    for (var key in instractsStore.instractsList.keys) {
+      categoryList.add(key);
+    }
+
     return Scaffold(
         appBar: AppBar(
           title: const Text("じぶん説明書"),
@@ -24,18 +31,20 @@ class HomePage extends StatelessWidget {
             ),
             Center(
                 child: Text(
-              userState.name,
+              userStore.name,
               style: const TextStyle(fontSize: 30),
             )),
             TextButton(
-                onPressed: () => {userState.name = "masaki"},
+                onPressed: () => {userStore.name = "masaki"},
                 child: const Text("Change Name")),
             Expanded(
                 child: ListView.builder(
-              itemCount: instracts.instractsList.length,
+              itemCount: instractsStore.instractsList.length,
               itemBuilder: (context, index) {
-                return _listItem(
-                    context, instracts.instractsList[index].category);
+                if (categoryList == []) {
+                  return Container();
+                }
+                return _listItem(context, categoryList[index]);
               },
             )),
           ],

@@ -14,20 +14,25 @@ class CategoryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Instracts instracts = Provider.of<Instracts>(context);
-    instracts.instractsList = instracts.getCategoryInstractsList(category);
+    final Instracts instractsStore = Provider.of<Instracts>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(category),
       ),
       body: Column(children: [
         Expanded(
-            child: ListView.builder(
-          itemCount: instracts.instractsList.length,
-          itemBuilder: (context, index) {
-            return _listItem(context, instracts.instractsList[index]);
-          },
-        )),
+            child: (() {
+          if (instractsStore.instractsList[category] == null) {
+            //instractが存在しない場合
+            return Container();
+          }
+          return ListView.builder(
+              itemCount: instractsStore.instractsList[category]!.length,
+              itemBuilder: (BuildContext context, int index) {
+                return _listItem(
+                    context, instractsStore.instractsList[category]![index]);
+              });
+        }())),
       ]),
     );
   }

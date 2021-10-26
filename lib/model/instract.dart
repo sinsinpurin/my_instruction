@@ -19,7 +19,23 @@ class Instracts extends ChangeNotifier {
     };
   }
 
-  void addInstract(String category, List<Instract> instractList) {
+  // 単体のinstractを入れる
+  void addInstract(String category, Instract instract) {
+    if (instractsList[category] != null) {
+      instractsList[category]!.add(instract);
+    } else {
+      List<Instract> instracts = [instract];
+      Map<String, List<Instract>> newInstractsList = {category: instracts};
+      instractsList.addAll(newInstractsList);
+    }
+    // Debug
+    instractsList[category]!
+        .forEach((Instract instract) => {print(instract._answers)});
+    notifyListeners();
+  }
+
+  // 複数のinstractを入れる
+  void addMultiInstract(String category, List<Instract> instractList) {
     if (instractsList[category] != null) {
       for (Instract instract in instractList) {
         instractsList[category]!.add(instract);

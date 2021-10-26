@@ -86,6 +86,7 @@ class CreatePage extends StatelessWidget {
               const Text("Answer", style: TextStyle(fontSize: 20)),
               TextButton(
                   onPressed: () {
+                    createViewModel.addAnswer();
                     createViewModel.inputAnswersNum =
                         createViewModel.inputAnswersNum + 1;
                   },
@@ -122,7 +123,34 @@ class CreatePage extends StatelessWidget {
               padding: const EdgeInsets.only(right: 20),
               child: ElevatedButton(
                   onPressed: () {
-                    createViewModel.allClear();
+                    if (createViewModel.inputAnswers != [""] &&
+                        createViewModel.inputQuestion != "" &&
+                        createViewModel.inputCategory != "") {
+                      instractsStore.addInstract(
+                          createViewModel.inputCategory,
+                          Instract(createViewModel.inputQuestion,
+                              createViewModel.inputAnswers));
+                      createViewModel.allClear();
+                      Navigator.pop(context);
+                    } else {
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (_) {
+                          return AlertDialog(
+                            content: const Text("Please Input All Instract"),
+                            actions: [
+                              TextButton(
+                                child: const Text("OK"),
+                                onPressed: () => {
+                                  Navigator.pop(context),
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    }
                   },
                   child: const Text("Submit")),
             )
@@ -146,12 +174,13 @@ class CreatePage extends StatelessWidget {
           hintText: 'Enter a Answer',
         ),
         onChanged: (text) {
-          createViewModel.addAnswer(index, text);
+          createViewModel.updateAnswer(index, text);
         },
       )),
     );
   }
 
+  // Answersをdeleteするボタン
   Widget _deleteButton(BuildContext context) {
     final CreateViewModel createViewModel =
         Provider.of<CreateViewModel>(context);
@@ -160,6 +189,7 @@ class CreatePage extends StatelessWidget {
           onPressed: () {
             createViewModel.inputAnswersNum =
                 createViewModel.inputAnswersNum - 1;
+            createViewModel.deleteAnswer();
           },
           child: const Icon(Icons.delete));
     } else {

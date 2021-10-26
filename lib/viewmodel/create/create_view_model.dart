@@ -26,15 +26,25 @@ class CreateViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addAnswer(int index, String answer) {
-    _inputAnswers[index] = answer;
-    notifyListeners();
+  void addAnswer() {
+    _inputAnswers.add("");
+  }
+
+  void deleteAnswer() {
+    _inputAnswers.removeLast();
+  }
+
+  void updateAnswer(int index, String answer) {
+    if (_inputAnswers.length == index + 1) {
+      _inputAnswers[index] = answer;
+      notifyListeners();
+    }
   }
 
   void allClear() {
     _inputQuestion = "";
     _inputCategory = "";
-    _inputAnswers = [];
+    _inputAnswers = [""];
     _inputAnswersNum = 1;
     notifyListeners();
   }

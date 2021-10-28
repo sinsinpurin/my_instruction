@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:my_instruction/model/instract.dart';
 import 'package:my_instruction/ui/components/instract_form.dart';
 import 'package:my_instruction/viewmodel/create/create_view_model.dart';
-import 'package:my_instruction/model/instract.dart';
 import 'package:provider/provider.dart';
 
-class CreatePage extends StatelessWidget {
-  const CreatePage({Key? key}) : super(key: key);
+class EditPage extends StatelessWidget {
+  const EditPage({Key? key, required this.instract, required this.category})
+      : super(key: key);
+
+  final Instract instract;
+  final String category;
 
   @override
   Widget build(BuildContext context) {
@@ -14,8 +18,11 @@ class CreatePage extends StatelessWidget {
     final Instracts instractsStore = Provider.of<Instracts>(context);
 
     return InstractForm(
-        mode: Mode.create,
-        createViewModel: createViewModel,
-        instractsStore: instractsStore);
+      mode: Mode.edit,
+      createViewModel: createViewModel,
+      instractsStore: instractsStore,
+      editInstract: instract,
+      category: category,
+    );
   }
 }

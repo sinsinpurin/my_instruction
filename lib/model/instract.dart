@@ -8,7 +8,7 @@ class Instracts extends ChangeNotifier {
   Instracts() {
     instractsList = {
       "Health Care": [
-        Instract("疲れたらどうすればいい？", ["寝たらいい"])
+        Instract("疲れたらどうすればいい？", ["寝たらいい", "ストレス発散しよう"])
       ],
       "Education": [
         Instract("勉強疲れた", ["寝たらいい"])
@@ -47,11 +47,18 @@ class Instracts extends ChangeNotifier {
     notifyListeners();
   }
 
+  void updateInstract(String category, Instract instract, int instractNum) {
+    if (instractsList[category] != null) {
+      instractsList[category]![instractNum] = instract;
+    }
+  }
+
   void removeInstract(String category, Instract instract) {
     //;
   }
 }
 
+// TODO: categoryを入れた方がいいかも
 class Instract {
   /// 初期値
   String _question = "Null Question";

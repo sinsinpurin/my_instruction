@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:my_instruction/model/instract.dart';
 import 'package:my_instruction/model/user.dart';
+import 'package:my_instruction/ui/components/create_button.dart';
 import 'package:my_instruction/ui/pages/category/category.dart';
 import 'package:my_instruction/ui/pages/create/create.dart';
 import 'package:provider/provider.dart';
@@ -22,66 +23,61 @@ class HomePage extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("じぶん説明書"),
-      ),
-      body: Column(
-        children: [
-          const Center(
-            child: Icon(Icons.person, size: 200),
-          ),
-          Center(
-              child: Text(
-            userStore.name,
-            style: const TextStyle(fontSize: 30),
-          )),
-          Container(
-            padding: const EdgeInsets.only(left: 15),
-            child: const Text(
-              "Category",
-              style: TextStyle(fontSize: 20),
+        appBar: AppBar(
+          title: const Text("じぶん説明書"),
+        ),
+        body: Column(
+          children: [
+            const Center(
+              child: Icon(Icons.person, size: 200),
             ),
-            alignment: Alignment.topLeft,
-          ),
-          Expanded(
-              child: ListView.builder(
-            itemCount: instractsStore.instractsList.length,
-            itemBuilder: (context, index) {
-              if (categoryList == []) {
-                return Container();
-              }
-              return _listItem(context, categoryList[index]);
-            },
-          )),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => const CreatePage(),
+            Center(
+                child: Text(
+              userStore.name,
+              style: const TextStyle(fontSize: 30),
+            )),
+            Container(
+              padding: const EdgeInsets.only(left: 15),
+              child: const Text(
+                "Category",
+                style: TextStyle(fontSize: 20),
+              ),
+              alignment: Alignment.topLeft,
             ),
-          );
-        },
-      ),
-    );
+            Expanded(
+                child: ListView.builder(
+              itemCount: instractsStore.instractsList.length,
+              itemBuilder: (context, index) {
+                if (categoryList == []) {
+                  return Container();
+                }
+                return _listItem(context, categoryList[index]);
+              },
+            )),
+          ],
+        ),
+        floatingActionButton: const CreateButton());
   }
 
   Widget _listItem(BuildContext context, String category) {
-    return ListTile(
-      title: Text(
-        category,
-        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-      ),
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute<Void>(
-                settings: const RouteSettings(name: "/category"),
-                builder: (BuildContext context) =>
-                    CategoryPage(category: category)));
-      },
+    return Column(
+      children: [
+        ListTile(
+          title: Text(
+            category,
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute<Void>(
+                    settings: const RouteSettings(name: "/category"),
+                    builder: (BuildContext context) =>
+                        CategoryPage(category: category)));
+          },
+        ),
+        const Divider(),
+      ],
     );
   }
 }

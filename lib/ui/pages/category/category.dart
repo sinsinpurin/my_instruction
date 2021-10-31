@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:my_instruction/model/instract.dart';
+import 'package:my_instruction/ui/components/create_button.dart';
 import 'package:my_instruction/ui/pages/instract/instract.dart';
 import 'package:provider/provider.dart';
 
@@ -36,23 +37,29 @@ class CategoryPage extends StatelessWidget {
               });
         }())),
       ]),
+      floatingActionButton: const CreateButton(),
     );
   }
 
   Widget _listItem(BuildContext context, Instract instract) {
-    return ListTile(
-      title: Text(
-        instract.question,
-        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-      ),
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute<Void>(
-                settings: const RouteSettings(name: "/instract"),
-                builder: (BuildContext context) =>
-                    InstractPage(instract: instract, category: category)));
-      },
+    return Column(
+      children: [
+        ListTile(
+          title: Text(
+            instract.question,
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute<Void>(
+                    settings: const RouteSettings(name: "/instract"),
+                    builder: (BuildContext context) =>
+                        InstractPage(instract: instract, category: category)));
+          },
+        ),
+        const Divider()
+      ],
     );
   }
 }

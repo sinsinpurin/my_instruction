@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.Dart';
 import 'package:my_instruction/model/instract.dart';
 import 'package:my_instruction/viewmodel/create/create_view_model.dart';
 import 'package:my_instruction/util/initializer.dart';
@@ -11,8 +10,7 @@ class InstractForm extends StatelessWidget {
       required this.createViewModel,
       required this.instractsStore,
       this.category,
-      this.editInstract,
-      this.instractNum})
+      this.editInstract})
       : super(key: key);
 
   final Mode mode;
@@ -20,7 +18,6 @@ class InstractForm extends StatelessWidget {
   final Instracts instractsStore;
   final Instract? editInstract;
   final String? category;
-  final int? instractNum;
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +33,7 @@ class InstractForm extends StatelessWidget {
     return InitializerWrapper(
         onInit: () {
           if (editInstract != null && category != null) {
+            // Edit時の初期値を読み込む
             Future(() {
               createViewModel.loadInstract(
                   category!, editInstract!.question, editInstract!.answers);
@@ -65,6 +63,7 @@ class InstractForm extends StatelessWidget {
                 if (mode == Mode.edit) {
                   return Text(createViewModel.inputCategory);
                 }
+                // DropDownButton カテゴリー選択ボタン
                 return DropdownButton<String>(
                   items: categoryList,
                   value: createViewModel.inputCategory,
@@ -80,6 +79,7 @@ class InstractForm extends StatelessWidget {
             Padding(
                 padding: const EdgeInsets.only(left: 30, right: 15),
                 child: (() {
+                  // カテゴリーにnewを選択した場合に新しいカテゴリーのテキストボックスを作成する
                   if (createViewModel.inputCategory == "new") {
                     return TextFormField(
                       maxLength: 30,
@@ -101,6 +101,7 @@ class InstractForm extends StatelessWidget {
             ),
             Padding(
                 padding: const EdgeInsets.only(left: 30, right: 15),
+                // Questionのテキストボックス
                 child: TextFormField(
                   maxLength: 30,
                   style: const TextStyle(color: Colors.black),
@@ -119,6 +120,7 @@ class InstractForm extends StatelessWidget {
               child: Row(
                 children: [
                   const Text("Answer", style: TextStyle(fontSize: 20)),
+                  // Answerのテキストボックスを追加するボタン
                   TextButton(
                       onPressed: () {
                         createViewModel.addAnswer();
@@ -144,6 +146,7 @@ class InstractForm extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 20),
+                  // Cancelボタン。全ての入力を消す
                   child: OutlinedButton(
                     onPressed: () {
                       createViewModel.allClear();
@@ -155,8 +158,10 @@ class InstractForm extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(right: 20),
-                  child: ElevatedButton(
+                    padding: const EdgeInsets.only(right: 20),
+                    // Submitボタン
+                    child: ElevatedButton(
+                      child: const Text("Submit"),
                       onPressed: () {
                         switch (mode) {
                           case Mode.create:
@@ -164,15 +169,28 @@ class InstractForm extends StatelessWidget {
                                 createViewModel.inputQuestion != "" &&
                                 createViewModel.inputCategory != "") {
                               if (createViewModel.inputCategory == "new") {
+                                // 新しいカテゴリーの場合
                                 instractsStore.addInstract(
                                     createViewModel.inputNewCategory,
-                                    Instract(createViewModel.inputQuestion,
-                                        createViewModel.inputAnswers));
+                                    0,
+                                    createViewModel.inputQuestion,
+                                    createViewModel.inputAnswers);
                               } else {
+                                // 既存のカテゴリーの場合
+                                if (instractsStore.instractsList[
+                                        createViewModel.inputCategory] ==
+                                    null) {
+                                  throw ArgumentError(
+                                      "instractsStore.instractsList[createViewModel.inputCategory] can't be null");
+                                }
                                 instractsStore.addInstract(
                                     createViewModel.inputCategory,
-                                    Instract(createViewModel.inputQuestion,
-                                        createViewModel.inputAnswers));
+                                    instractsStore
+                                        .instractsList[
+                                            createViewModel.inputCategory]!
+                                        .length,
+                                    createViewModel.inputQuestion,
+                                    createViewModel.inputAnswers);
                               }
                               createViewModel.allClear();
                               Navigator.pop(context);
@@ -202,8 +220,10 @@ class InstractForm extends StatelessWidget {
                                 createViewModel.inputQuestion != "" &&
                                 createViewModel.inputCategory != "") {
                               Instract inst = Instract(
+                                  editInstract!.id,
                                   createViewModel.inputCategory,
                                   createViewModel.inputAnswers);
+                              // TODO: update instract
                               //instractsStore.updateInstract(createViewModel.inputCategory, inst, instractNum)
                               createViewModel.allClear();
                               Navigator.pop(context);
@@ -230,8 +250,7 @@ class InstractForm extends StatelessWidget {
                             }
                         }
                       },
-                      child: const Text("Submit")),
-                )
+                    ))
               ],
             ),
           ),

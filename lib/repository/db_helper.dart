@@ -35,8 +35,8 @@ class DBHelper {
     return rInstractlist;
   }
 
-  Instract getInstracts(int id) {
-    final inst = instractRepo.getSync(id);
+  Future<Instract> getInstracts(int id) async {
+    final inst = await instractRepo.get(id);
     if (inst == null) {
       throw Exception("idに紐ずくinstractがdbにないよ");
     } else {
@@ -59,8 +59,8 @@ class DBHelper {
     return rInstractlist;
   }
 
-  String getCategoryName(int id) {
-    final categoryObj = categoryRepo.getSync(id);
+  Future<String> getCategoryName(int id) async {
+    final categoryObj = await categoryRepo.get(id);
     if (categoryObj == null) {
       throw Exception("idに紐ずくcateogryがdbにないよ");
     } else {
@@ -68,7 +68,22 @@ class DBHelper {
     }
   }
 
-  void addInstractRepo(
+  Future<int> getIdByCategory(String category) async {
+    RepositoryCategory? queryCategory = await categoryRepo
+        .where()
+        .filter()
+        .categoryEqualTo(category)
+        .findFirst();
+    if (queryCategory == null || queryCategory.categoryId == null) {
+      print(queryCategory);
+      print(queryCategory?.categoryId);
+      throw Exception("cateogryに紐ずくidがdbにないよ");
+    } else {
+      return queryCategory.categoryId!;
+    }
+  }
+
+  Future<void> addInstractRepo(
       int categoryId, String question, List<String> answers) async {
     final newInstract = RepositoryInstract()
       ..categoryId = categoryId
@@ -79,8 +94,8 @@ class DBHelper {
     });
   }
 
-  void updateInstractRepo(int instractId, int categoryId, String question,
-      List<String> answers) async {
+  Future<void> updateInstractRepo(int instractId, int categoryId,
+      String question, List<String> answers) async {
     final newInstract = RepositoryInstract()
       ..instractId = instractId
       ..categoryId = categoryId
@@ -91,7 +106,7 @@ class DBHelper {
     });
   }
 
-  void addCategoryRepo(String category) async {
+  Future<void> addCategoryRepo(String category) async {
     final newCategory = RepositoryCategory()..category = category;
     await isar.writeTxn((isar) async {
       await categoryRepo.put(newCategory);

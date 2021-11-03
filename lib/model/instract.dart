@@ -23,44 +23,51 @@ class InstractsStore extends ChangeNotifier {
   List<Category> get categoryList => _categoryList;
   List<Instract> get instractList => _instractList;
 
-  Instract getInstract(int id) {
-    return db.getInstracts(id);
+  Future<Instract> getInstract(int id) async {
+    return await db.getInstracts(id);
   }
 
-  String getCategoryById(int id) {
-    return db.getCategoryName(id);
+  Future<String> getCategoryById(int id) async {
+    return await db.getCategoryName(id);
   }
 
-  void refleshStore() async {
+  Future<int> getIdByCategory(String category) async {
+    int id = await db.getIdByCategory(category);
+    return id;
+  }
+
+  Future<void> refleshCategoryList() async {
     _categoryList = await db.getAllCategory();
     notifyListeners();
   }
 
-  void setInstractByCategoryID(int categoryId) async {
+  Future<void> refleshInstractList(int categoryId) async {
+    await setInstractByCategoryID(categoryId);
+    notifyListeners();
+  }
+
+  Future<void> setInstractByCategoryID(int categoryId) async {
     _instractList = await db.getInstractsByCategoryID(categoryId);
     notifyListeners();
   }
 
-  void addInstract(int categoryId, String question, List<String> answers) {
-    db.addInstractRepo(categoryId, question, answers);
-    refleshStore();
+  Future<void> addInstract(
+      int categoryId, String question, List<String> answers) async {
+    await db.addInstractRepo(categoryId, question, answers);
+    await refleshCategoryList();
     notifyListeners();
   }
 
-  void addCategory(String category) {
-    db.addCategoryRepo(category);
-    refleshStore();
+  Future<void> addCategory(String category) async {
+    await db.addCategoryRepo(category);
+    await refleshCategoryList();
     notifyListeners();
   }
 
-  int getLatestCategoryId() {
-    return _categoryList[_categoryList.length - 1]._categoryId;
-  }
-
-  void updateInstract(
-      int instractId, int categoryId, String question, List<String> answers) {
-    db.updateInstractRepo(instractId, categoryId, question, answers);
-    refleshStore();
+  Future<void> updateInstract(int instractId, int categoryId, String question,
+      List<String> answers) async {
+    await db.updateInstractRepo(instractId, categoryId, question, answers);
+    await refleshInstractList(categoryId);
     notifyListeners();
   }
 }

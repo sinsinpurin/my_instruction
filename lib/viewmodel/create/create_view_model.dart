@@ -64,9 +64,10 @@ class CreateViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void loadInstract(int instractId, InstractsStore instractsStore) {
-    Instract instract = instractsStore.getInstract(instractId);
-    _inputCategory = instractsStore.getCategoryById(instract.categoryId);
+  Future<void> loadInstract(
+      int instractId, InstractsStore instractsStore) async {
+    Instract instract = await instractsStore.getInstract(instractId);
+    _inputCategory = await instractsStore.getCategoryById(instract.categoryId);
     _inputQuestion = instract.question;
     _inputAnswers = instract.answers;
     _inputAnswersNum = instract.answers.length;

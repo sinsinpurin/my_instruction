@@ -33,8 +33,9 @@ class InstractForm extends StatelessWidget {
         onInit: () {
           if (editInstract != null) {
             // Edit時の初期値を読み込む
-            Future(() {
-              createViewModel.loadInstract(editInstract!.id, instractsStore);
+            Future(() async {
+              await createViewModel.loadInstract(
+                  editInstract!.id, instractsStore);
             });
           }
         },
@@ -160,7 +161,7 @@ class InstractForm extends StatelessWidget {
                     // Submitボタン
                     child: ElevatedButton(
                       child: const Text("Submit"),
-                      onPressed: () {
+                      onPressed: () async {
                         switch (mode) {
                           case Mode.create:
                             if (createViewModel.inputAnswers != [""] &&
@@ -169,16 +170,22 @@ class InstractForm extends StatelessWidget {
                               if (createViewModel.inputCategory == "new") {
                                 // 新しいカテゴリーの場合
                                 // TODO: ここCategoryId()どうにかする
-                                instractsStore.addCategory(
+                                await instractsStore.addCategory(
                                     createViewModel.inputNewCategory);
-                                instractsStore.addInstract(
-                                    instractsStore.getLatestCategoryId(),
+                                int newCategoryId =
+                                    await instractsStore.getIdByCategory(
+                                        createViewModel.inputNewCategory);
+                                await instractsStore.addInstract(
+                                    newCategoryId,
                                     createViewModel.inputQuestion,
                                     createViewModel.inputAnswers);
                               } else {
                                 // 既存のカテゴリーの場合
-                                instractsStore.addInstract(
-                                    int.parse(createViewModel.inputCategory),
+                                int categoryId =
+                                    await instractsStore.getIdByCategory(
+                                        createViewModel.inputNewCategory);
+                                await instractsStore.addInstract(
+                                    categoryId,
                                     createViewModel.inputQuestion,
                                     createViewModel.inputAnswers);
                               }
@@ -208,11 +215,12 @@ class InstractForm extends StatelessWidget {
                           case Mode.edit:
                             if (createViewModel.inputAnswers != [""] &&
                                 createViewModel.inputQuestion != "" &&
-                                createViewModel.inputCategory != "") {
+                                createViewModel.inputCategory != "" &&
+                                editInstract != null) {
                               // TODO: update instract
-                              instractsStore.updateInstract(
+                              await instractsStore.updateInstract(
                                   editInstract!.id,
-                                  int.parse(createViewModel.inputCategory),
+                                  editInstract!.categoryId,
                                   createViewModel.inputQuestion,
                                   createViewModel.inputAnswers);
                               createViewModel.allClear();

@@ -9,15 +9,13 @@ class InstractForm extends StatelessWidget {
       required this.mode,
       required this.createViewModel,
       required this.instractsStore,
-      this.category,
       this.editInstract})
       : super(key: key);
 
   final Mode mode;
   final CreateViewModel createViewModel;
-  final Instracts instractsStore;
+  final InstractsStore instractsStore;
   final Instract? editInstract;
-  final String? category;
 
   @override
   Widget build(BuildContext context) {
@@ -26,17 +24,17 @@ class InstractForm extends StatelessWidget {
     ];
     categoryList
         .add(const DropdownMenuItem(child: Text("New Category"), value: "new"));
-    for (var key in instractsStore.instractsList.keys) {
-      categoryList.add(DropdownMenuItem(child: Text(key), value: key));
+    for (var item in instractsStore.categoryList) {
+      categoryList.add(DropdownMenuItem(
+          child: Text(item.category), value: item.categoryId.toString()));
     }
 
     return InitializerWrapper(
         onInit: () {
-          if (editInstract != null && category != null) {
+          if (editInstract != null) {
             // Edit時の初期値を読み込む
             Future(() {
-              createViewModel.loadInstract(
-                  category!, editInstract!.question, editInstract!.answers);
+              createViewModel.loadInstract(editInstract!.id, instractsStore);
             });
           }
         },
@@ -170,25 +168,17 @@ class InstractForm extends StatelessWidget {
                                 createViewModel.inputCategory != "") {
                               if (createViewModel.inputCategory == "new") {
                                 // 新しいカテゴリーの場合
+                                // TODO: ここCategoryId()どうにかする
+                                instractsStore.addCategory(
+                                    createViewModel.inputNewCategory);
                                 instractsStore.addInstract(
-                                    createViewModel.inputNewCategory,
-                                    0,
+                                    instractsStore.getLatestCategoryId(),
                                     createViewModel.inputQuestion,
                                     createViewModel.inputAnswers);
                               } else {
                                 // 既存のカテゴリーの場合
-                                if (instractsStore.instractsList[
-                                        createViewModel.inputCategory] ==
-                                    null) {
-                                  throw ArgumentError(
-                                      "instractsStore.instractsList[createViewModel.inputCategory] can't be null");
-                                }
                                 instractsStore.addInstract(
-                                    createViewModel.inputCategory,
-                                    instractsStore
-                                        .instractsList[
-                                            createViewModel.inputCategory]!
-                                        .length,
+                                    int.parse(createViewModel.inputCategory),
                                     createViewModel.inputQuestion,
                                     createViewModel.inputAnswers);
                               }
@@ -219,12 +209,12 @@ class InstractForm extends StatelessWidget {
                             if (createViewModel.inputAnswers != [""] &&
                                 createViewModel.inputQuestion != "" &&
                                 createViewModel.inputCategory != "") {
-                              Instract inst = Instract(
-                                  editInstract!.id,
-                                  createViewModel.inputCategory,
-                                  createViewModel.inputAnswers);
                               // TODO: update instract
-                              //instractsStore.updateInstract(createViewModel.inputCategory, inst, instractNum)
+                              instractsStore.updateInstract(
+                                  editInstract!.id,
+                                  int.parse(createViewModel.inputCategory),
+                                  createViewModel.inputQuestion,
+                                  createViewModel.inputAnswers);
                               createViewModel.allClear();
                               Navigator.pop(context);
                             } else {

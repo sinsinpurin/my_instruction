@@ -172,7 +172,6 @@ class InstractForm extends StatelessWidget {
                                 createViewModel.inputCategory != "") {
                               if (createViewModel.inputCategory == "new") {
                                 // 新しいカテゴリーの場合
-                                // TODO: ここCategoryId()どうにかする
                                 await instractsStore.addCategory(
                                     createViewModel.inputNewCategory);
                                 int newCategoryId =
@@ -220,18 +219,11 @@ class InstractForm extends StatelessWidget {
                                 createViewModel.inputQuestion != "" &&
                                 createViewModel.inputCategory != "" &&
                                 editInstract != null) {
-                              // TODO: Navigater.pop後の状態が古い
-                              // TODO: 更新が反映されるのが遅い
                               await instractsStore.updateInstract(
                                   editInstract!.id,
                                   editInstract!.categoryId,
                                   createViewModel.inputQuestion,
                                   createViewModel.inputAnswers);
-                              // Instract newInstract = await instractsStore
-                              //     .getInstract(editInstract!.id);
-                              // Category categoryObj = Category(
-                              //     editInstract!.categoryId,
-                              //     createViewModel.inputCategory);
                               instractViewModel
                                   .loadCategory(editInstract!.categoryId);
                               instractViewModel.loadInstract(editInstract!.id);

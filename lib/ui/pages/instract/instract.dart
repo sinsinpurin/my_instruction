@@ -53,12 +53,14 @@ class InstractPage extends StatelessWidget {
               ),
             ),
             // TODO: なぜか中央寄せになってしまっている
-            const Padding(
-                padding: EdgeInsets.only(top: 50),
-                child: Text(
-                  "Answer",
-                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                )),
+            Container(
+              padding: const EdgeInsets.only(top: 50, left: 15),
+              child: const Text(
+                "Answer",
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              ),
+              alignment: Alignment.topLeft,
+            ),
             Expanded(
                 child: ListView.builder(
               itemCount: instract.answers.length,

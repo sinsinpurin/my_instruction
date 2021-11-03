@@ -30,6 +30,12 @@ dependencies:
   flutter:
     sdk: flutter
   provider: ^6.0.1
+  isar: 0.4.0
+  isar_flutter_libs: ^0.4.0 # contains the binaries
+  isar_connect: # ^0.2.0 # if you want to use the Isar Inspector
+    git:
+      url: git@github.com:isar/isar.git
+      path: packages/isar_connect
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -39,6 +45,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  isar_generator: 0.4.0
+  build_runner: any
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

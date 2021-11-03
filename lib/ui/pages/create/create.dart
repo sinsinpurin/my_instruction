@@ -11,7 +11,7 @@ class CreatePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final CreateViewModel createViewModel =
         Provider.of<CreateViewModel>(context);
-    final Instracts instractsStore = Provider.of<Instracts>(context);
+    final InstractsStore instractsStore = Provider.of<InstractsStore>(context);
 
     return InstractForm(
         mode: Mode.create,

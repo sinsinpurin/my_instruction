@@ -5,11 +5,12 @@ import 'package:my_instruction/model/instract.dart';
 import 'package:my_instruction/ui/pages/edit/edit.dart';
 
 class InstractPage extends StatelessWidget {
-  const InstractPage({Key? key, required this.instract, required this.category})
+  const InstractPage(
+      {Key? key, required this.instract, required this.categoryObj})
       : super(key: key);
 
   final Instract instract;
-  final String category;
+  final Category categoryObj;
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +25,8 @@ class InstractPage extends StatelessWidget {
                     context,
                     MaterialPageRoute<Void>(
                         settings: const RouteSettings(name: "/edit"),
-                        builder: (BuildContext context) =>
-                            EditPage(instract: instract, category: category)));
+                        builder: (BuildContext context) => EditPage(
+                            instract: instract, categoryObj: categoryObj)));
               },
               icon: const Icon(Icons.edit))
         ],

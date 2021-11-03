@@ -5,7 +5,6 @@ import 'package:my_instruction/model/instract.dart';
 import 'package:my_instruction/model/user.dart';
 import 'package:my_instruction/ui/components/create_button.dart';
 import 'package:my_instruction/ui/pages/category/category.dart';
-import 'package:my_instruction/ui/pages/create/create.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
@@ -14,13 +13,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final User userStore = Provider.of<User>(context);
-    final Instracts instractsStore = Provider.of<Instracts>(context);
-
-    List<String> categoryList = [];
-
-    for (var key in instractsStore.instractsList.keys) {
-      categoryList.add(key);
-    }
+    final InstractsStore instractsStore = Provider.of<InstractsStore>(context);
 
     return Scaffold(
         appBar: AppBar(
@@ -46,12 +39,12 @@ class HomePage extends StatelessWidget {
             ),
             Expanded(
                 child: ListView.builder(
-              itemCount: instractsStore.instractsList.length,
+              itemCount: instractsStore.categoryList.length,
               itemBuilder: (context, index) {
-                if (categoryList == []) {
+                if (instractsStore.categoryList == []) {
                   return Container();
                 }
-                return _listItem(context, categoryList[index]);
+                return _listItem(context, instractsStore.categoryList[index]);
               },
             )),
           ],
@@ -59,12 +52,12 @@ class HomePage extends StatelessWidget {
         floatingActionButton: const CreateButton());
   }
 
-  Widget _listItem(BuildContext context, String category) {
+  Widget _listItem(BuildContext context, Category categoryObj) {
     return Column(
       children: [
         ListTile(
           title: Text(
-            category,
+            categoryObj.category,
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           onTap: () {
@@ -73,7 +66,7 @@ class HomePage extends StatelessWidget {
                 MaterialPageRoute<Void>(
                     settings: const RouteSettings(name: "/category"),
                     builder: (BuildContext context) =>
-                        CategoryPage(category: category)));
+                        CategoryPage(categoryObj: categoryObj)));
           },
         ),
         const Divider(),

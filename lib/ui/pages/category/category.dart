@@ -7,33 +7,33 @@ import 'package:my_instruction/ui/pages/instract/instract.dart';
 import 'package:provider/provider.dart';
 
 class CategoryPage extends StatelessWidget {
-  CategoryPage({Key? key, required this.category}) : super(key: key) {
+  CategoryPage({Key? key, required this.categoryObj}) : super(key: key) {
     //;
   }
 
-  final String category;
+  final Category categoryObj;
 
   @override
   Widget build(BuildContext context) {
-    final Instracts instractsStore = Provider.of<Instracts>(context);
+    final InstractsStore instractsStore = Provider.of<InstractsStore>(context);
+    instractsStore.setInstractByCategoryID(categoryObj.categoryId);
     return Scaffold(
       appBar: AppBar(
-        title: Text(category),
+        title: Text(categoryObj.category),
       ),
       body: Column(children: [
         Expanded(
             child: (() {
-          if (instractsStore.instractsList[category] == null) {
+          if (instractsStore.categoryList.isEmpty) {
             //instractが存在しない場合
             return const Center(
               child: Text("No Instracts"),
             );
           }
           return ListView.builder(
-              itemCount: instractsStore.instractsList[category]!.length,
+              itemCount: instractsStore.instractList.length,
               itemBuilder: (BuildContext context, int index) {
-                return _listItem(
-                    context, instractsStore.instractsList[category]![index]);
+                return _listItem(context, instractsStore.instractList[index]);
               });
         }())),
       ]),
@@ -54,8 +54,8 @@ class CategoryPage extends StatelessWidget {
                 context,
                 MaterialPageRoute<Void>(
                     settings: const RouteSettings(name: "/instract"),
-                    builder: (BuildContext context) =>
-                        InstractPage(instract: instract, category: category)));
+                    builder: (BuildContext context) => InstractPage(
+                        instract: instract, categoryObj: categoryObj)));
           },
         ),
         const Divider()

@@ -5,24 +5,23 @@ import 'package:my_instruction/viewmodel/create/create_view_model.dart';
 import 'package:provider/provider.dart';
 
 class EditPage extends StatelessWidget {
-  const EditPage({Key? key, required this.instract, required this.category})
+  const EditPage({Key? key, required this.instract, required this.categoryObj})
       : super(key: key);
 
   final Instract instract;
-  final String category;
+  final Category categoryObj;
 
   @override
   Widget build(BuildContext context) {
     final CreateViewModel createViewModel =
         Provider.of<CreateViewModel>(context);
-    final Instracts instractsStore = Provider.of<Instracts>(context);
+    final InstractsStore instractsStore = Provider.of<InstractsStore>(context);
 
     return InstractForm(
       mode: Mode.edit,
       createViewModel: createViewModel,
       instractsStore: instractsStore,
       editInstract: instract,
-      category: category,
     );
   }
 }

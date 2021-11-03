@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_instruction/model/instract.dart';
 
 enum Mode { create, edit }
 
@@ -63,11 +64,12 @@ class CreateViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void loadInstract(String category, String question, List<String> answers) {
-    _inputCategory = category;
-    _inputQuestion = question;
-    _inputAnswers = answers;
-    _inputAnswersNum = answers.length;
+  void loadInstract(int instractId, InstractsStore instractsStore) {
+    Instract instract = instractsStore.getInstract(instractId);
+    _inputCategory = instractsStore.getCategoryById(instract.categoryId);
+    _inputQuestion = instract.question;
+    _inputAnswers = instract.answers;
+    _inputAnswersNum = instract.answers.length;
     mode = Mode.edit;
 
     //いらんかも

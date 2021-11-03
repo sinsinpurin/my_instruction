@@ -1,100 +1,91 @@
 import 'package:flutter/material.dart';
+import 'package:isar/isar.dart';
+import 'package:my_instruction/isar.g.dart';
+import 'package:my_instruction/repository/db_helper.dart';
 
-// TODO: データベースとのやりとり
-class Instracts extends ChangeNotifier {
-  // 初期値
-  Map<String, List<Instract>> instractsList = {};
+class InstractsStore extends ChangeNotifier {
+  late DBHelper db;
 
-  Instracts() {
-    instractsList = {
-      "Health Care": [
-        Instract(0, "疲れたらどうすればいい？", ["寝たらいい", "ストレス発散しよう"])
-      ],
-      "Education": [
-        Instract(0, "勉強疲れた", ["寝たらいい"])
-      ],
-      "Life": [
-        Instract(0, "朝起きれない", ["早寝しよう"])
-      ],
-    };
+  List<Category> _categoryList = [];
+  List<Instract> _instractList = [];
+
+  InstractsStore() {
+    initialize();
   }
 
-  // 単体のinstractを入れる
-  void addInstract(
-      String category, int id, String question, List<String> answers) {
-    if (instractsList[category] != null) {
-      instractsList[category]!.add(Instract(id, question, answers));
-    } else {
-      List<Instract> instracts = [Instract(id, question, answers)];
-      Map<String, List<Instract>> newInstractsList = {category: instracts};
-      instractsList.addAll(newInstractsList);
-    }
-    // Debug
-    instractsList[category]!
-        .forEach((Instract instract) => {print(instract._answers)});
+  initialize() async {
+    Isar isar = await openIsar();
+    db = DBHelper(isar: isar);
+    _categoryList = await db.getAllCategory();
     notifyListeners();
   }
 
-  // 複数のinstractを入れる
-  void addMultiInstract(String category, List<Instract> instractList) {
-    if (instractsList[category] != null) {
-      for (Instract instract in instractList) {
-        instractsList[category]!.add(instract);
-      }
-    } else {
-      Map<String, List<Instract>> newInstractsList = {category: instractList};
-      instractsList.addAll(newInstractsList);
-    }
+  List<Category> get categoryList => _categoryList;
+  List<Instract> get instractList => _instractList;
+
+  Instract getInstract(int id) {
+    return db.getInstracts(id);
+  }
+
+  String getCategoryById(int id) {
+    return db.getCategoryName(id);
+  }
+
+  void refleshStore() async {
+    _categoryList = await db.getAllCategory();
     notifyListeners();
   }
 
-  void updateInstract(String category, Instract instract) {
-    if (instractsList[category] != null) {
-      instractsList[category]![instract.id] = instract;
-    }
+  void setInstractByCategoryID(int categoryId) async {
+    _instractList = await db.getInstractsByCategoryID(categoryId);
+    notifyListeners();
   }
 
-  void removeInstract(String category, Instract instract) {
-    //;
+  void addInstract(int categoryId, String question, List<String> answers) {
+    db.addInstractRepo(categoryId, question, answers);
+    refleshStore();
+    notifyListeners();
+  }
+
+  void addCategory(String category) {
+    db.addCategoryRepo(category);
+    refleshStore();
+    notifyListeners();
+  }
+
+  int getLatestCategoryId() {
+    return _categoryList[_categoryList.length - 1]._categoryId;
+  }
+
+  void updateInstract(
+      int instractId, int categoryId, String question, List<String> answers) {
+    db.updateInstractRepo(instractId, categoryId, question, answers);
+    refleshStore();
+    notifyListeners();
   }
 }
 
-// TODO: categoryを入れた方がいいかも
-class Instract {
+class Category extends ChangeNotifier {
+  // 初期値
+  final int _categoryId;
+  final String _category;
+  Category(this._categoryId, this._category);
+
+  int get categoryId => _categoryId;
+  String get category => _category;
+}
+
+class Instract extends ChangeNotifier {
   /// 初期値
-  int _id = 0;
-  String _question = "Null Question";
-  List<String> _answers = ["Null Answer"];
+  final int _categoryId;
+  final int _id;
+  final String _question;
+  final List<String> _answers;
 
-  Instract(id, question, answers) {
-    _id = id;
-    _question = question;
-    _answers = answers;
-  }
+  Instract(this._categoryId, this._id, this._question, this._answers);
 
+  int get categoryId => _categoryId;
   int get id => _id;
   String get question => _question;
   List<String> get answers => _answers;
-
-  set index(int i) {
-    _id = i;
-  }
-
-  set question(String question) {
-    if (question.isNotEmpty) {
-      _question = question;
-    }
-  }
-
-  set answers(List<String> answers) {
-    if (answers.isNotEmpty) {
-      _answers = answers;
-    }
-  }
-
-  void addAnswers(List<String> answers) {
-    if (answers.isNotEmpty) {
-      _answers = [..._answers, ...answers];
-    }
-  }
 }

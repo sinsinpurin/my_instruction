@@ -2,17 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:my_instruction/model/instract.dart';
 import 'package:my_instruction/viewmodel/create/create_view_model.dart';
 import 'package:my_instruction/util/initializer.dart';
+import 'package:my_instruction/viewmodel/create/instract_view_model.dart';
 
 class InstractForm extends StatelessWidget {
   const InstractForm(
       {Key? key,
       required this.mode,
+      required this.instractViewModel,
       required this.createViewModel,
       required this.instractsStore,
       this.editInstract})
       : super(key: key);
 
   final Mode mode;
+  final InstractViewModel instractViewModel;
   final CreateViewModel createViewModel;
   final InstractsStore instractsStore;
   final Instract? editInstract;
@@ -190,7 +193,7 @@ class InstractForm extends StatelessWidget {
                                     createViewModel.inputAnswers);
                               }
                               createViewModel.allClear();
-                              Navigator.pop(context);
+                              Navigator.of(context).pop();
                             } else {
                               showDialog(
                                 context: context,
@@ -217,12 +220,21 @@ class InstractForm extends StatelessWidget {
                                 createViewModel.inputQuestion != "" &&
                                 createViewModel.inputCategory != "" &&
                                 editInstract != null) {
-                              // TODO: update instract
+                              // TODO: Navigater.pop後の状態が古い
+                              // TODO: 更新が反映されるのが遅い
                               await instractsStore.updateInstract(
                                   editInstract!.id,
                                   editInstract!.categoryId,
                                   createViewModel.inputQuestion,
                                   createViewModel.inputAnswers);
+                              // Instract newInstract = await instractsStore
+                              //     .getInstract(editInstract!.id);
+                              // Category categoryObj = Category(
+                              //     editInstract!.categoryId,
+                              //     createViewModel.inputCategory);
+                              instractViewModel
+                                  .loadCategory(editInstract!.categoryId);
+                              instractViewModel.loadInstract(editInstract!.id);
                               createViewModel.allClear();
                               Navigator.pop(context);
                             } else {

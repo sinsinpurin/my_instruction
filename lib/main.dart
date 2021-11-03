@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_instruction/model/instract.dart';
 import 'package:my_instruction/model/user.dart';
 import 'package:my_instruction/viewmodel/create/create_view_model.dart';
+import 'package:my_instruction/viewmodel/create/instract_view_model.dart';
 import 'package:provider/provider.dart';
 import 'ui/pages/home/home.dart';
 
@@ -9,6 +10,7 @@ void main() async {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => User()),
     ChangeNotifierProvider(create: (context) => InstractsStore()),
+    ChangeNotifierProvider(create: (context) => InstractViewModel()),
     ChangeNotifierProvider(create: (context) => CreateViewModel())
   ], child: const MyApp()));
 }

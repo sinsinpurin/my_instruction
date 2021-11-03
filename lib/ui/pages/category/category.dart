@@ -54,8 +54,8 @@ class CategoryPage extends StatelessWidget {
                 context,
                 MaterialPageRoute<Void>(
                     settings: const RouteSettings(name: "/instract"),
-                    builder: (BuildContext context) => InstractPage(
-                        instract: instract, categoryObj: categoryObj)));
+                    builder: (BuildContext context) =>
+                        InstractPage(instractId: instract.id)));
           },
         ),
         const Divider()

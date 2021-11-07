@@ -62,7 +62,7 @@ class InstractsStore extends ChangeNotifier {
     await db.deleteInstractRepo(instractId);
     List<Instract> instractlistTmp =
         await db.getInstractsByCategoryID(categoryId);
-    if (instractlistTmp == []) {
+    if (instractlistTmp.isEmpty) {
       await db.deleteCategoryRepo(categoryId);
       await refleshCategoryList();
       await refleshInstractList(categoryId);

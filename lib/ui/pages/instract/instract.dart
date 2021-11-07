@@ -26,7 +26,7 @@ class InstractPage extends StatelessWidget {
         },
         child: Scaffold(
           appBar: AppBar(
-            title: const Text("Question",
+            title: const Text("質問",
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
             actions: [
               IconButton(

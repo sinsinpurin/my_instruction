@@ -24,10 +24,10 @@ class CategoryPage extends StatelessWidget {
       body: Column(children: [
         Expanded(
             child: (() {
-          if (instractsStore.categoryList.isEmpty) {
-            //instractが存在しない場合
+          if (instractsStore.instractList.isEmpty) {
+            //instractが存在しない場合 カテゴリーの削除ボタンの作成
             return const Center(
-              child: Text("No Instracts"),
+              child: Text("Q&A がありません"),
             );
           }
           return ListView.builder(

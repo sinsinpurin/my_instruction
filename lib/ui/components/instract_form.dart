@@ -40,9 +40,9 @@ class InstractForm extends StatelessWidget {
             title: () {
               switch (mode) {
                 case Mode.create:
-                  return const Text("Create Q&A");
+                  return const Text("Q&A 作成");
                 case Mode.edit:
-                  return const Text("Edit Q&A");
+                  return const Text("Q&A 編集");
               }
             }(),
             actions: [
@@ -65,7 +65,7 @@ class InstractForm extends StatelessWidget {
           body: Column(children: [
             Container(
               padding: const EdgeInsets.only(left: 30, top: 100),
-              child: const Text("Category", style: TextStyle(fontSize: 20)),
+              child: const Text("カテゴリー", style: TextStyle(fontSize: 20)),
               alignment: Alignment.topLeft,
             ),
             Container(
@@ -106,7 +106,7 @@ class InstractForm extends StatelessWidget {
                       style: const TextStyle(color: Colors.black),
                       decoration: const InputDecoration(
                         border: InputBorder.none,
-                        hintText: 'Enter a new Category',
+                        hintText: '新しいカテゴリーを入力',
                       ),
                       onChanged: (text) {
                         createViewModel.inputNewCategory = text;
@@ -116,7 +116,7 @@ class InstractForm extends StatelessWidget {
                 }())),
             Container(
               padding: const EdgeInsets.only(left: 30, top: 30),
-              child: const Text("Question", style: TextStyle(fontSize: 20)),
+              child: const Text("質問", style: TextStyle(fontSize: 20)),
               alignment: Alignment.topLeft,
             ),
             Padding(
@@ -127,7 +127,7 @@ class InstractForm extends StatelessWidget {
                   style: const TextStyle(color: Colors.black),
                   decoration: const InputDecoration(
                     border: InputBorder.none,
-                    hintText: 'Enter a Question',
+                    hintText: '質問を入力',
                   ),
                   initialValue:
                       editInstract == null ? "" : editInstract!.question,
@@ -139,7 +139,7 @@ class InstractForm extends StatelessWidget {
               padding: const EdgeInsets.only(left: 30, top: 7),
               child: Row(
                 children: [
-                  const Text("Answer", style: TextStyle(fontSize: 20)),
+                  const Text("答え", style: TextStyle(fontSize: 20)),
                   // Answerのテキストボックスを追加するボタン
                   TextButton(
                       onPressed: () {
@@ -172,7 +172,7 @@ class InstractForm extends StatelessWidget {
                       Navigator.of(context).pop();
                       createViewModel.allClear();
                     },
-                    child: const Text("Cancel"),
+                    child: const Text("キャンセル"),
                     style: OutlinedButton.styleFrom(
                       primary: Colors.red,
                     ),
@@ -182,7 +182,7 @@ class InstractForm extends StatelessWidget {
                     padding: const EdgeInsets.only(right: 20),
                     // Submitボタン
                     child: ElevatedButton(
-                      child: const Text("Submit"),
+                      child: const Text("保存"),
                       onPressed: () async {
                         switch (mode) {
                           case Mode.create:
@@ -218,8 +218,7 @@ class InstractForm extends StatelessWidget {
                                 barrierDismissible: false,
                                 builder: (_) {
                                   return AlertDialog(
-                                    content:
-                                        const Text("Please Input All Instract"),
+                                    content: const Text("空の入力欄があります"),
                                     actions: [
                                       TextButton(
                                         child: const Text("OK"),
@@ -254,8 +253,7 @@ class InstractForm extends StatelessWidget {
                                 barrierDismissible: false,
                                 builder: (_) {
                                   return AlertDialog(
-                                    content:
-                                        const Text("Please Input All Instract"),
+                                    content: const Text("空の入力欄があります"),
                                     actions: [
                                       TextButton(
                                         child: const Text("OK"),
@@ -287,7 +285,7 @@ class InstractForm extends StatelessWidget {
         style: const TextStyle(color: Colors.black),
         decoration: const InputDecoration(
           border: InputBorder.none,
-          hintText: 'Enter a Answer',
+          hintText: '答えを入力',
         ),
         initialValue: editInstract == null ? "" : editInstract!.answers[index],
         onChanged: (text) {

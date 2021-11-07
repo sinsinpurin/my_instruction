@@ -32,7 +32,7 @@ class HomePage extends StatelessWidget {
             Container(
               padding: const EdgeInsets.only(left: 15),
               child: const Text(
-                "Category",
+                "カテゴリー",
                 style: TextStyle(fontSize: 20),
               ),
               alignment: Alignment.topLeft,

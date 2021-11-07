@@ -22,25 +22,18 @@ class InstractForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<DropdownMenuItem<String>> categoryList = [
-      const DropdownMenuItem(child: Text("Select Category"), value: "")
-    ];
-    categoryList
-        .add(const DropdownMenuItem(child: Text("New Category"), value: "new"));
-    for (var item in instractsStore.categoryList) {
-      categoryList.add(DropdownMenuItem(
-          child: Text(item.category), value: item.categoryId.toString()));
-    }
-
     return InitializerWrapper(
         onInit: () {
           if (editInstract != null) {
             // Edit時の初期値を読み込む
             Future(() async {
               await createViewModel.loadInstract(
-                  editInstract!.id, instractsStore);
+                  editInstract!.id, instractsStore, Mode.edit);
             });
           }
+          Future(() async {
+            await instractsStore.refleshCategoryList();
+          });
         },
         child: Scaffold(
           appBar: AppBar(
@@ -52,6 +45,22 @@ class InstractForm extends StatelessWidget {
                   return const Text("Edit Q&A");
               }
             }(),
+            actions: [
+              () {
+                switch (mode) {
+                  case Mode.create:
+                    return const SizedBox.shrink();
+                  case Mode.edit:
+                    return IconButton(
+                        onPressed: () {
+                          instractsStore.deleteInstract(
+                              editInstract!.id, editInstract!.categoryId);
+                          Navigator.popUntil(context, ModalRoute.withName("/"));
+                        },
+                        icon: const Icon(Icons.delete));
+                }
+              }(),
+            ],
           ),
           body: Column(children: [
             Container(
@@ -67,13 +76,22 @@ class InstractForm extends StatelessWidget {
                 }
                 // DropDownButton カテゴリー選択ボタン
                 return DropdownButton<String>(
-                  items: categoryList,
                   value: createViewModel.inputCategory,
                   onChanged: (category) {
                     if (category != "" && category != null) {
                       createViewModel.inputCategory = category;
                     }
                   },
+                  style: const TextStyle(color: Colors.black),
+                  items: instractsStore
+                      .getDropDownButtonCatgoryList()
+                      .map<DropdownMenuItem<String>>((Category category) {
+                    return DropdownMenuItem<String>(
+                      // value: category.categoryId.toString(),
+                      value: category.category,
+                      child: Text(category.category),
+                    );
+                  }).toList(),
                 );
               }(),
               alignment: Alignment.topLeft,
@@ -151,6 +169,7 @@ class InstractForm extends StatelessWidget {
                   // Cancelボタン。全ての入力を消す
                   child: OutlinedButton(
                     onPressed: () {
+                      Navigator.of(context).pop();
                       createViewModel.allClear();
                     },
                     child: const Text("Cancel"),
@@ -185,7 +204,7 @@ class InstractForm extends StatelessWidget {
                                 // 既存のカテゴリーの場合
                                 int categoryId =
                                     await instractsStore.getIdByCategory(
-                                        createViewModel.inputNewCategory);
+                                        createViewModel.inputCategory);
                                 await instractsStore.addInstract(
                                     categoryId,
                                     createViewModel.inputQuestion,
@@ -285,12 +304,11 @@ class InstractForm extends StatelessWidget {
           onPressed: () {
             createViewModel.inputAnswersNum =
                 createViewModel.inputAnswersNum - 1;
-            print(createViewModel.inputAnswersNum);
             createViewModel.deleteAnswer();
           },
           child: const Icon(Icons.delete));
     } else {
-      return Container();
+      return const SizedBox.shrink();
     }
   }
 }

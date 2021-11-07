@@ -75,8 +75,6 @@ class DBHelper {
         .categoryEqualTo(category)
         .findFirst();
     if (queryCategory == null || queryCategory.categoryId == null) {
-      print(queryCategory);
-      print(queryCategory?.categoryId);
       throw Exception("cateogryに紐ずくidがdbにないよ");
     } else {
       return queryCategory.categoryId!;
@@ -103,6 +101,18 @@ class DBHelper {
       ..answers = answers;
     await isar.writeTxn((isar) async {
       await instractRepo.put(newInstract);
+    });
+  }
+
+  Future<void> deleteInstractRepo(int instractId) async {
+    await isar.writeTxn((isar) async {
+      instractRepo.delete(instractId);
+    });
+  }
+
+  Future<void> deleteCategoryRepo(int categoryId) async {
+    await isar.writeTxn((isar) async {
+      categoryRepo.delete(categoryId);
     });
   }
 

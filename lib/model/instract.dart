@@ -58,6 +58,18 @@ class InstractsStore extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> deleteInstract(int instractId, int categoryId) async {
+    await db.deleteInstractRepo(instractId);
+    List<Instract> instractlistTmp =
+        await db.getInstractsByCategoryID(categoryId);
+    if (instractlistTmp == []) {
+      await db.deleteCategoryRepo(categoryId);
+      await refleshCategoryList();
+      await refleshInstractList(categoryId);
+    }
+    notifyListeners();
+  }
+
   Future<void> addCategory(String category) async {
     await db.addCategoryRepo(category);
     await refleshCategoryList();
@@ -69,6 +81,11 @@ class InstractsStore extends ChangeNotifier {
     await db.updateInstractRepo(instractId, categoryId, question, answers);
     await refleshInstractList(categoryId);
     notifyListeners();
+  }
+
+  List<Category> getDropDownButtonCatgoryList() {
+    List<Category> DDBCList = [Category(0, "new"), ..._categoryList];
+    return DDBCList;
   }
 }
 

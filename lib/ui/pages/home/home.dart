@@ -42,7 +42,7 @@ class HomePage extends StatelessWidget {
               itemCount: instractsStore.categoryList.length,
               itemBuilder: (context, index) {
                 if (instractsStore.categoryList == []) {
-                  return Container();
+                  return const SizedBox.shrink();
                 }
                 return _listItem(context, instractsStore.categoryList[index]);
               },
@@ -60,6 +60,7 @@ class HomePage extends StatelessWidget {
             categoryObj.category,
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
+          trailing: const Icon(Icons.navigate_next),
           onTap: () {
             Navigator.push(
                 context,

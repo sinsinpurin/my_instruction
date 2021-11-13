@@ -52,7 +52,6 @@ class InstractPage extends StatelessWidget {
                 ),
               ),
             ),
-            // TODO: なぜか中央寄せになってしまっている
             Container(
               padding: const EdgeInsets.only(top: 50, left: 15),
               child: const Text(

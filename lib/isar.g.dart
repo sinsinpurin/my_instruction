@@ -84,7 +84,7 @@ Future<String> _preparePath(String? path) async {
   if (path == null || p.isRelative(path)) {
     WidgetsFlutterBinding.ensureInitialized();
     final dir = await getApplicationDocumentsDirectory();
-    print(dir);
+    //print(dir);
     return p.join(dir.path, path ?? 'isar');
   } else {
     return path;

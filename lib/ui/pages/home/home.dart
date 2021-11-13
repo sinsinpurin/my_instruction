@@ -21,16 +21,16 @@ class HomePage extends StatelessWidget {
         ),
         body: Column(
           children: [
-            const Center(
-              child: Icon(Icons.person, size: 200),
-            ),
-            Center(
-                child: Text(
-              userStore.name,
-              style: const TextStyle(fontSize: 30),
-            )),
+            // const Center(
+            //   child: Icon(Icons.person, size: 200),
+            // ),
+            // Center(
+            //     child: Text(
+            //   userStore.name,
+            //   style: const TextStyle(fontSize: 30),
+            // )),
             Container(
-              padding: const EdgeInsets.only(left: 15),
+              padding: const EdgeInsets.only(top: 40, left: 15),
               child: const Text(
                 "カテゴリー",
                 style: TextStyle(fontSize: 20),

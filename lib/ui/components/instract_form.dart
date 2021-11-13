@@ -53,10 +53,30 @@ class InstractForm extends StatelessWidget {
                   case Mode.edit:
                     return IconButton(
                         onPressed: () async {
-                          await instractsStore.deleteInstract(
-                              editInstract!.id, editInstract!.categoryId);
-                          createViewModel.allClear();
-                          Navigator.popUntil(context, ModalRoute.withName("/"));
+                          showDialog(
+                              context: context,
+                              builder: (_) {
+                                return AlertDialog(
+                                  title: const Text("この説明を削除しますか？"),
+                                  actions: [
+                                    OutlinedButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text("キャンセル")),
+                                    ElevatedButton(
+                                        onPressed: () async {
+                                          await instractsStore.deleteInstract(
+                                              editInstract!.id,
+                                              editInstract!.categoryId);
+                                          createViewModel.allClear();
+                                          Navigator.popUntil(context,
+                                              ModalRoute.withName("/"));
+                                        },
+                                        child: const Text("はい"))
+                                  ],
+                                );
+                              });
                         },
                         icon: const Icon(Icons.delete));
                 }

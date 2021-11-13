@@ -7,9 +7,7 @@ import 'package:my_instruction/ui/pages/instract/instract.dart';
 import 'package:provider/provider.dart';
 
 class CategoryPage extends StatelessWidget {
-  CategoryPage({Key? key, required this.categoryObj}) : super(key: key) {
-    //;
-  }
+  const CategoryPage({Key? key, required this.categoryObj}) : super(key: key);
 
   final Category categoryObj;
 
@@ -22,14 +20,20 @@ class CategoryPage extends StatelessWidget {
         title: Text(categoryObj.category),
       ),
       body: Column(children: [
+        if (instractsStore.instractList.isEmpty)
+          Column(
+            children: [
+              const Center(child: Text("Q&A がありません")),
+              IconButton(
+                  onPressed: () async {
+                    await instractsStore.deleteCategory(categoryObj.categoryId);
+                    Navigator.popUntil(context, ModalRoute.withName("/"));
+                  },
+                  icon: const Icon(Icons.delete))
+            ],
+          ),
         Expanded(
             child: (() {
-          if (instractsStore.instractList.isEmpty) {
-            //instractが存在しない場合 カテゴリーの削除ボタンの作成
-            return const Center(
-              child: Text("Q&A がありません"),
-            );
-          }
           return ListView.builder(
               itemCount: instractsStore.instractList.length,
               itemBuilder: (BuildContext context, int index) {

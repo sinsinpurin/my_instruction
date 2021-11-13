@@ -52,9 +52,10 @@ class InstractForm extends StatelessWidget {
                     return const SizedBox.shrink();
                   case Mode.edit:
                     return IconButton(
-                        onPressed: () {
-                          instractsStore.deleteInstract(
+                        onPressed: () async {
+                          await instractsStore.deleteInstract(
                               editInstract!.id, editInstract!.categoryId);
+                          createViewModel.allClear();
                           Navigator.popUntil(context, ModalRoute.withName("/"));
                         },
                         icon: const Icon(Icons.delete));

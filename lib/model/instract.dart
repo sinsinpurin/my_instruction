@@ -70,6 +70,16 @@ class InstractsStore extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> deleteCategory(int categoryId) async {
+    List<Instract> instractlistTmp =
+        await db.getInstractsByCategoryID(categoryId);
+    if (instractlistTmp.isEmpty) {
+      await db.deleteCategoryRepo(categoryId);
+      await refleshCategoryList();
+    }
+    notifyListeners();
+  }
+
   Future<void> addCategory(String category) async {
     await db.addCategoryRepo(category);
     await refleshCategoryList();

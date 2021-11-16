@@ -308,7 +308,16 @@ class InstractForm extends StatelessWidget {
           border: InputBorder.none,
           hintText: '答えを入力',
         ),
-        initialValue: editInstract == null ? "" : editInstract!.answers[index],
+        initialValue: () {
+          if (editInstract == null) {
+            return "";
+          } else {
+            if (editInstract!.answers.length <= index) {
+              return "";
+            }
+            return editInstract!.answers[index];
+          }
+        }(),
         onChanged: (text) {
           createViewModel.updateAnswer(index, text);
         },

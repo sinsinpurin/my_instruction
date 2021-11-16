@@ -52,10 +52,8 @@ class CreateViewModel extends ChangeNotifier {
   }
 
   void updateAnswer(int index, String answer) {
-    if (_inputAnswers.length == index + 1) {
-      _inputAnswers[index] = answer;
-      notifyListeners();
-    }
+    _inputAnswers[index] = answer;
+    notifyListeners();
   }
 
   void allClear() {

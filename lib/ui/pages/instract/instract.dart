@@ -66,11 +66,12 @@ class InstractPage extends StatelessWidget {
               itemBuilder: (context, index) {
                 return ListTile(
                     title: Text(
-                      instract.answers[index],
-                      style: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    trailing: const Icon(Icons.favorite));
+                  instract.answers[index],
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                )
+                    // trailing: const Icon(Icons.favorite)
+                    );
               },
             ))
           ]),

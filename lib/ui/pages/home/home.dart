@@ -12,30 +12,23 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final User userStore = Provider.of<User>(context);
+    //final User userStore = Provider.of<User>(context);
     final InstractsStore instractsStore = Provider.of<InstractsStore>(context);
 
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("じぶん説明書"),
-        ),
         body: Column(
           children: [
-            // const Center(
-            //   child: Icon(Icons.person, size: 200),
-            // ),
-            // Center(
-            //     child: Text(
-            //   userStore.name,
-            //   style: const TextStyle(fontSize: 30),
-            // )),
-            Container(
-              padding: const EdgeInsets.only(top: 40, left: 15),
-              child: const Text(
-                "カテゴリー",
-                style: TextStyle(fontSize: 20),
-              ),
-              alignment: Alignment.topLeft,
+            Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.only(top: 40, left: 15),
+                  child: const Text(
+                    "じぶん説明書",
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  alignment: Alignment.topLeft,
+                ),
+              ],
             ),
             Expanded(
                 child: ListView.builder(

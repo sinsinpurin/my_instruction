@@ -2,7 +2,7 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:my_instruction/model/instract.dart';
-import 'package:my_instruction/model/user.dart';
+// import 'package:my_instruction/model/user.dart';
 import 'package:my_instruction/ui/components/create_button.dart';
 import 'package:my_instruction/ui/pages/category/category.dart';
 import 'package:provider/provider.dart';
@@ -48,22 +48,28 @@ class HomePage extends StatelessWidget {
   Widget _listItem(BuildContext context, Category categoryObj) {
     return Column(
       children: [
-        ListTile(
-          title: Text(
-            categoryObj.category,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-          trailing: const Icon(Icons.navigate_next),
-          onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute<Void>(
-                    settings: const RouteSettings(name: "/category"),
-                    builder: (BuildContext context) =>
-                        CategoryPage(categoryObj: categoryObj)));
-          },
-        ),
-        const Divider(),
+        Card(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ListTile(
+                title: Text(
+                  categoryObj.category,
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                trailing: const Icon(Icons.navigate_next),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute<Void>(
+                          settings: const RouteSettings(name: "/category"),
+                          builder: (BuildContext context) =>
+                              CategoryPage(categoryObj: categoryObj)));
+                },
+              ),
+            )),
       ],
     );
   }

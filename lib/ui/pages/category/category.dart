@@ -48,21 +48,27 @@ class CategoryPage extends StatelessWidget {
   Widget _listItem(BuildContext context, Instract instract) {
     return Column(
       children: [
-        ListTile(
-          title: Text(
-            instract.question,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-          onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute<Void>(
-                    settings: const RouteSettings(name: "/instract"),
-                    builder: (BuildContext context) =>
-                        InstractPage(instractId: instract.id)));
-          },
-        ),
-        const Divider()
+        Card(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ListTile(
+                title: Text(
+                  instract.question,
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute<Void>(
+                          settings: const RouteSettings(name: "/instract"),
+                          builder: (BuildContext context) =>
+                              InstractPage(instractId: instract.id)));
+                },
+              ),
+            )),
       ],
     );
   }

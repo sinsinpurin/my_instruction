@@ -45,11 +45,12 @@ class InstractPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: 80),
               child: Center(
-                child: Text(
+                child: Material(
+                    child: Text(
                   instract.question,
                   style: const TextStyle(
                       fontSize: 30, fontWeight: FontWeight.bold),
-                ),
+                )),
               ),
             ),
             Container(

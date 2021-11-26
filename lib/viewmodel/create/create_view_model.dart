@@ -4,7 +4,7 @@ import 'package:my_instruction/model/instract.dart';
 enum Mode { create, edit }
 
 class CreateViewModel extends ChangeNotifier {
-  String _inputCategory = "new";
+  String _inputCategory = "新しいカテゴリ";
   String _inputNewCategory = "";
   String _inputQuestion = "";
   List<String> _inputAnswers = [""];
@@ -57,7 +57,7 @@ class CreateViewModel extends ChangeNotifier {
   }
 
   void allClear() {
-    _inputCategory = "new";
+    _inputCategory = "新しいカテゴリ";
     _inputNewCategory = "";
     _inputQuestion = "";
     _inputAnswers = [""];

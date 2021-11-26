@@ -94,7 +94,7 @@ class InstractsStore extends ChangeNotifier {
   }
 
   List<Category> getDropDownButtonCatgoryList() {
-    List<Category> DDBCList = [Category(0, "new"), ..._categoryList];
+    List<Category> DDBCList = [Category(0, "新しいカテゴリ"), ..._categoryList];
     return DDBCList;
   }
 }

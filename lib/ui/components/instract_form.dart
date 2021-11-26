@@ -121,7 +121,7 @@ class InstractForm extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 30, right: 15),
                 child: (() {
                   // カテゴリーにnewを選択した場合に新しいカテゴリーのテキストボックスを作成する
-                  if (createViewModel.inputCategory == "new") {
+                  if (createViewModel.inputCategory == "新しいカテゴリ") {
                     return TextFormField(
                       maxLength: 30,
                       style: const TextStyle(color: Colors.black),
@@ -210,7 +210,7 @@ class InstractForm extends StatelessWidget {
                             if (createViewModel.inputAnswers != [""] &&
                                 createViewModel.inputQuestion != "" &&
                                 createViewModel.inputCategory != "") {
-                              if (createViewModel.inputCategory == "new") {
+                              if (createViewModel.inputCategory == "新しいカテゴリ") {
                                 // 新しいカテゴリーの場合
                                 await instractsStore.addCategory(
                                     createViewModel.inputNewCategory);

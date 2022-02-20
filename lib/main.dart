@@ -5,12 +5,23 @@ import 'package:my_instruction/viewmodel/create/create_view_model.dart';
 import 'package:my_instruction/viewmodel/create/instract_view_model.dart';
 import 'package:provider/provider.dart';
 import 'ui/pages/home/home.dart';
+import 'package:my_instruction/repository/db_model.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:isar/isar.dart';
 
 void main() async {
+  // main内に変数を宣言する場合はWidgetsFlutterBinding.ensureInitialized()を実行する
+  WidgetsFlutterBinding.ensureInitialized();
+  final dir = await getApplicationSupportDirectory();
+    Isar isar = await Isar.open(
+      schemas: [RepositoryCategorySchema,RepositoryInstractSchema],
+      directory: dir.path,
+      inspector: true
+    );
   runApp(MultiProvider(providers: [
 //    ChangeNotifierProvider(create: (context) => User()),
-    ChangeNotifierProvider(create: (context) => InstractsStore()),
-    ChangeNotifierProvider(create: (context) => InstractViewModel()),
+    ChangeNotifierProvider(create: (context) => InstractsStore(isar: isar)),
+    ChangeNotifierProvider(create: (context) => InstractViewModel(isar: isar)),
     ChangeNotifierProvider(create: (context) => CreateViewModel())
   ], child: const MyApp()));
 }

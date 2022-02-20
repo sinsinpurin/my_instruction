@@ -1,5 +1,7 @@
 import 'package:isar/isar.dart';
 
+part 'db_model.g.dart';
+
 @Collection()
 @Name("CategoryList")
 class RepositoryCategory {

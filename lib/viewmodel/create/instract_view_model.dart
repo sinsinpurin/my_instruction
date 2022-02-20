@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
-import 'package:my_instruction/isar.g.dart';
 import 'package:my_instruction/model/instract.dart';
 import 'package:my_instruction/repository/db_helper.dart';
 
 class InstractViewModel extends ChangeNotifier {
   Instract _instract = Instract(0, 0, "", [""]);
   Category _category = Category(0, "");
+  final Isar isar;
   late DBHelper db;
 
-  InstractViewModel() {
+  InstractViewModel({required this.isar}) {
     initialize();
   }
 
-  initialize() async {
-    Isar isar = await openIsar();
+  Future initialize() async {
     db = DBHelper(isar: isar);
     notifyListeners();
   }

@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:my_instruction/model/instract.dart';
 import 'package:my_instruction/ui/components/create_button.dart';
@@ -62,7 +60,7 @@ class CategoryPage extends StatelessWidget {
                 onTap: () {
                   Navigator.push(
                       context,
-                      MaterialPageRoute<Void>(
+                      MaterialPageRoute<void>(
                           settings: const RouteSettings(name: "/instract"),
                           builder: (BuildContext context) =>
                               InstractPage(instractId: instract.id)));

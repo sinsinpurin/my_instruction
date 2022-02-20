@@ -1,19 +1,23 @@
 import 'package:isar/isar.dart';
-import 'package:my_instruction/isar.g.dart';
+import 'db_model.dart';
 import 'package:my_instruction/repository/db_model.dart';
-
 import 'package:my_instruction/model/instract.dart';
 
 class DBHelper {
   final Isar isar;
-  late IsarCollection<RepositoryCategory> categoryRepo;
-  late IsarCollection<RepositoryInstract> instractRepo;
-  DBHelper({required this.isar}) {
-    categoryRepo = isar.repositoryCategorys;
-    instractRepo = isar.repositoryInstracts;
+
+  DBHelper({required this.isar});
+
+  Future<IsarCollection<RepositoryCategory>> getCategoryRepo() async {
+    return isar.repositoryCategorys;
+  }
+
+  Future<IsarCollection<RepositoryInstract>> getInstractRepo() async {
+    return isar.repositoryInstracts;
   }
 
   Future<List<Category>> getAllCategory() async {
+    var categoryRepo = await getCategoryRepo();
     List<RepositoryCategory> categoryList =
         await categoryRepo.where().findAll();
     List<Category> rCategoryList = [];
@@ -25,6 +29,7 @@ class DBHelper {
   }
 
   Future<List<Instract>> getAllInstract() async {
+    var instractRepo = await getInstractRepo();
     List<RepositoryInstract> instractList =
         await instractRepo.where().findAll();
     List<Instract> rInstractlist = [];
@@ -36,6 +41,7 @@ class DBHelper {
   }
 
   Future<Instract> getInstracts(int id) async {
+    var instractRepo = await getInstractRepo();
     final inst = await instractRepo.get(id);
     if (inst == null) {
       throw Exception("idに紐ずくinstractがdbにないよ");
@@ -46,6 +52,7 @@ class DBHelper {
   }
 
   Future<List<Instract>> getInstractsByCategoryID(int categoryId) async {
+    var instractRepo = await getInstractRepo();
     List<RepositoryInstract> instractList = await instractRepo
         .where()
         .filter()
@@ -60,6 +67,7 @@ class DBHelper {
   }
 
   Future<String> getCategoryName(int id) async {
+    var categoryRepo = await getCategoryRepo();
     final categoryObj = await categoryRepo.get(id);
     if (categoryObj == null) {
       throw Exception("idに紐ずくcateogryがdbにないよ");
@@ -69,6 +77,7 @@ class DBHelper {
   }
 
   Future<int> getIdByCategory(String category) async {
+    var categoryRepo = await getCategoryRepo();
     RepositoryCategory? queryCategory = await categoryRepo
         .where()
         .filter()
@@ -83,6 +92,7 @@ class DBHelper {
 
   Future<void> addInstractRepo(
       int categoryId, String question, List<String> answers) async {
+      var instractRepo = await getInstractRepo();
     final newInstract = RepositoryInstract()
       ..categoryId = categoryId
       ..question = question
@@ -94,6 +104,7 @@ class DBHelper {
 
   Future<void> updateInstractRepo(int instractId, int categoryId,
       String question, List<String> answers) async {
+      var instractRepo = await getInstractRepo();
     final newInstract = RepositoryInstract()
       ..instractId = instractId
       ..categoryId = categoryId
@@ -105,12 +116,14 @@ class DBHelper {
   }
 
   Future<void> deleteInstractRepo(int instractId) async {
+    var instractRepo = await getInstractRepo();
     await isar.writeTxn((isar) async {
       instractRepo.delete(instractId);
     });
   }
 
   Future<void> deleteCategoryRepo(int categoryId) async {
+    var categoryRepo = await getCategoryRepo();
     await isar.writeTxn((isar) async {
       categoryRepo.delete(categoryId);
     });
@@ -118,6 +131,7 @@ class DBHelper {
 
   Future<void> addCategoryRepo(String category) async {
     final newCategory = RepositoryCategory()..category = category;
+    var categoryRepo = await getCategoryRepo();
     await isar.writeTxn((isar) async {
       await categoryRepo.put(newCategory);
     });

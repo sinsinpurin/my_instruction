@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:my_instruction/model/instract.dart';
 // import 'package:my_instruction/model/user.dart';
@@ -63,7 +61,7 @@ class HomePage extends StatelessWidget {
                 onTap: () {
                   Navigator.push(
                       context,
-                      MaterialPageRoute<Void>(
+                      MaterialPageRoute<void>(
                           settings: const RouteSettings(name: "/category"),
                           builder: (BuildContext context) =>
                               CategoryPage(categoryObj: categoryObj)));

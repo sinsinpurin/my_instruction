@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
-import 'package:my_instruction/isar.g.dart';
 import 'package:my_instruction/repository/db_helper.dart';
 
 class InstractsStore extends ChangeNotifier {
   late DBHelper db;
+  final Isar isar;
 
   List<Category> _categoryList = [];
   List<Instract> _instractList = [];
 
-  InstractsStore() {
-    initialize();
-  }
-
-  initialize() async {
-    Isar isar = await openIsar();
+  InstractsStore({required this.isar}) {
     db = DBHelper(isar: isar);
+    //initialize();
+  }
+  // TODO: バグりそうなので後で消す可能性あり
+  initialize() async {
     _categoryList = await db.getAllCategory();
     notifyListeners();
   }

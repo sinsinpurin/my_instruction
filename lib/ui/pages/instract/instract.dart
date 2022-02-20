@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:my_instruction/util/initializer.dart';
 import 'package:my_instruction/viewmodel/create/instract_view_model.dart';
@@ -33,7 +31,7 @@ class InstractPage extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                         context,
-                        MaterialPageRoute<Void>(
+                        MaterialPageRoute<void>(
                             settings: const RouteSettings(name: "/edit"),
                             builder: (BuildContext context) =>
                                 EditPage(instract: instract)));
